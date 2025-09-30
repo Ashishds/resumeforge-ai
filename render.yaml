@@ -20,21 +20,18 @@ services:
         value: 1
     healthCheckPath: /api/health
 
-  # Frontend Static Site
-  - type: static_site
+  # Frontend Service
+  - type: web
     name: resumeforge-frontend
+    runtime: node
     region: oregon
     plan: free
     branch: main
     rootDir: frontend
     buildCommand: npm ci && npm run build
-    staticPublishPath: ./dist
+    startCommand: npx serve -s dist -l $PORT
     envVars:
       - key: NODE_VERSION
         value: 18
       - key: VITE_API_URL
         value: https://resumeforge-api.onrender.com
-    routes:
-      - type: rewrite
-        source: /*
-        destination: /index.html

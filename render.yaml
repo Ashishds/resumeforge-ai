@@ -21,7 +21,7 @@ services:
     healthCheckPath: /api/health
 
   # Frontend Service
-  - type: web
+  - type: static
     name: resumeforge-frontend
     runtime: node
     region: oregon
@@ -29,7 +29,7 @@ services:
     branch: main
     rootDir: frontend
     buildCommand: npm ci && npm run build
-    startCommand: npm run preview -- --port $PORT --host 0.0.0.0
+    staticPublishPath: ./dist
     envVars:
       - key: NODE_VERSION
         value: 18

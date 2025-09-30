@@ -1,0 +1,41 @@
+services:
+  # Backend API Service
+  - type: web
+    name: resumeforge-api
+    runtime: python
+    region: oregon
+    plan: free
+    branch: main
+    rootDir: backend
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
+    startCommand: gunicorn backend.api.main:app --workers 1 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT --timeout 120 --keepalive 5
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.0
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: ENVIRONMENT
+        value: production
+      - key: WEB_CONCURRENCY
+        value: 1
+    healthCheckPath: /api/health
+
+  # Frontend Service
+  - type: web
+    name: resumeforge-frontend
+    runtime: node
+    region: oregon
+    plan: free
+    branch: main
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    startCommand: npm run preview -- --port $PORT --host 0.0.0.0
+    envVars:
+      - key: NODE_VERSION
+        value: 18
+      - key: VITE_API_URL
+        value: https://resumeforge-api.onrender.com
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

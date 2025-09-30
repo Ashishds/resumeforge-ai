@@ -7,7 +7,7 @@ services:
     plan: free
     branch: main
     rootDir: backend
-    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt --no-cache-dir
     startCommand: gunicorn backend.api.main:app --workers 1 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT --timeout 120
     envVars:
       - key: PYTHON_VERSION
@@ -28,7 +28,7 @@ services:
     plan: free
     branch: main
     rootDir: frontend
-    buildCommand: npm ci && npm run build
+    buildCommand: npm ci --production=false && npm run build
     startCommand: npx serve -s dist -l $PORT
     envVars:
       - key: NODE_VERSION

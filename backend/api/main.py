@@ -13,8 +13,8 @@ from fastapi.responses import Response, JSONResponse
 from pydantic import BaseModel
 from dotenv import load_dotenv
 
-from backend.core.workflow_orchestrator import OptimizationPipeline
-from backend.services.document_processor import (
+from core.workflow_orchestrator import OptimizationPipeline
+from services.document_processor import (
     DocumentExtractor,
     DocumentGenerator,
     DocumentValidator

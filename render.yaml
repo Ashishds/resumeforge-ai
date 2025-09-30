@@ -20,9 +20,9 @@ services:
         value: 1
     healthCheckPath: /api/health
 
-static_sites:
   # Frontend Static Site
-  - name: resumeforge-frontend
+  - type: static_site
+    name: resumeforge-frontend
     region: oregon
     plan: free
     branch: main

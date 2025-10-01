@@ -99,25 +99,20 @@ Frontend will run at: **http://localhost:3000**
 ## 📁 Project Structure
 
 ```
-resumeforge-ai/
-├── backend/
+resume_parse_crewai/
+├── backend/                      # Python FastAPI backend
 │   ├── api/
-│   │   ├── __init__.py
 │   │   └── main.py              # FastAPI application & endpoints
 │   ├── core/
-│   │   ├── __init__.py
-│   │   ├── ai_specialists.py    # AI agent definitions
+│   │   ├── ai_specialists.py    # 6 AI agent definitions
 │   │   ├── workflow_orchestrator.py  # Pipeline orchestration
 │   │   └── workflow_tasks.py    # Task definitions
 │   ├── services/
-│   │   ├── __init__.py
 │   │   └── document_processor.py # File parsing & PDF generation
-│   ├── requirements.txt
-│   ├── .env.example
-│   └── Procfile                 # Render.com deployment config
-├── frontend/
+│   └── requirements.txt         # Python dependencies
+├── frontend/                     # React frontend
 │   ├── src/
-│   │   ├── components/
+│   │   ├── components/          # React components
 │   │   │   ├── Header.jsx
 │   │   │   ├── UploadSection.jsx
 │   │   │   ├── ResultsSection.jsx
@@ -127,11 +122,15 @@ resumeforge-ai/
 │   │   ├── App.jsx
 │   │   ├── main.jsx
 │   │   └── index.css
-│   ├── package.json
-│   ├── vite.config.js
-│   └── tailwind.config.js
-├── render.yaml                  # Render.com deployment config
-└── README.md
+│   ├── package.json             # Node dependencies
+│   └── vite.config.js           # Vite configuration
+├── vercel.json                  # Vercel deployment config
+├── railway.json                 # Railway deployment config
+├── nixpacks.toml               # Railway build config
+├── STEP_BY_STEP_DEPLOYMENT.md  # Beginner-friendly deployment guide
+├── QUICK_DEPLOY_VERCEL_RAILWAY.md # Quick deployment steps
+├── DEPLOYMENT_GUIDE_VERCEL_RAILWAY.md # Complete deployment guide
+└── README.md                    # This file
 ```
 
 ---
@@ -236,33 +235,32 @@ Personalized career guidance including:
 
 ---
 
-## 🚀 Deployment on Render
+## 🚀 Deployment - Vercel + Railway (Recommended)
 
-### **Automated Deployment**
+### **Quick Deploy (2-3 minutes)**
 
-1. **Push to GitHub:**
-```bash
-git init
-git add .
-git commit -m "Initial commit"
-git remote add origin YOUR_REPO_URL
-git push -u origin main
-```
+**Backend (Railway):**
+1. Go to [railway.app](https://railway.app) → "New Project"
+2. Connect GitHub repository
+3. Add environment variable: `OPENAI_API_KEY = sk-your-key`
+4. Deploy automatically
 
-2. **Connect to Render:**
-- Go to [Render Dashboard](https://dashboard.render.com)
-- Click "New" → "Blueprint"
-- Connect your GitHub repository
-- Render will auto-detect `render.yaml`
+**Frontend (Vercel):**
+1. Go to [vercel.com](https://vercel.com) → "New Project"
+2. Connect GitHub repository  
+3. Add environment variable: `VITE_API_URL = https://your-backend.railway.app`
+4. Deploy automatically
 
-3. **Configure Environment Variables:**
-- Set `OPENAI_API_KEY` in backend service settings
-- Update `VITE_API_URL` in frontend to your backend URL
+**Why Vercel + Railway?**
+- ✅ **No sleep time** (unlike Render free tier)
+- ✅ **Faster deployment** (2-3 minutes vs 10+ minutes)
+- ✅ **Better performance** (global CDN)
+- ✅ **Easier setup** (no complex config files)
+- ✅ **Free forever** (generous limits)
 
-4. **Deploy:**
-- Render automatically deploys both services
-- Backend: `https://YOUR-API.onrender.com`
-- Frontend: `https://YOUR-FRONTEND.onrender.com`
+📖 **Step-by-Step Guide:** [STEP_BY_STEP_DEPLOYMENT.md](./STEP_BY_STEP_DEPLOYMENT.md) (Beginner-friendly)
+⚡ **Quick Deploy:** [QUICK_DEPLOY_VERCEL_RAILWAY.md](./QUICK_DEPLOY_VERCEL_RAILWAY.md)
+📚 **Full Guide:** [DEPLOYMENT_GUIDE_VERCEL_RAILWAY.md](./DEPLOYMENT_GUIDE_VERCEL_RAILWAY.md)
 
 ### **Manual Deployment**
 
@@ -285,17 +283,27 @@ npm run preview
 
 ## 🔒 Environment Variables
 
-### **Backend (.env)**
+### **Railway Backend**
 ```env
-OPENAI_API_KEY=sk-...
-PORT=8000
+OPENAI_API_KEY=sk-your-actual-key-here
 ENVIRONMENT=production
-ALLOWED_ORIGINS=https://your-frontend.onrender.com
+ALLOWED_ORIGINS=https://your-frontend.vercel.app
 ```
 
-### **Frontend**
+### **Vercel Frontend**
 ```env
-VITE_API_URL=https://your-backend.onrender.com
+VITE_API_URL=https://your-backend.railway.app
+```
+
+### **Local Development**
+```env
+# Backend (.env)
+OPENAI_API_KEY=sk-your-actual-key-here
+PORT=8000
+ENVIRONMENT=development
+
+# Frontend
+VITE_API_URL=http://localhost:8000
 ```
 
 ---
@@ -355,7 +363,7 @@ AuthenticationError: Incorrect API key
 ```
 Access-Control-Allow-Origin error
 ```
-**Solution:** Update `ALLOWED_ORIGINS` in backend `.env`
+**Solution:** Update `ALLOWED_ORIGINS` in Railway backend environment variables
 
 **3. File Upload Fails**
 ```
@@ -421,14 +429,20 @@ For questions or support, please open an issue on GitHub.
 **🎯 Transform your career with AI-powered resume optimization!**
 
 **Ready to get started?**
-1. Clone this repository
-2. Follow the Quick Start guide
+1. Follow the [Step-by-Step Deployment Guide](./STEP_BY_STEP_DEPLOYMENT.md)
+2. Deploy to Vercel + Railway (free)
 3. Upload your resume
 4. Get your ATS-optimized resume in seconds!
 
-**Live Demo:** [Coming Soon]
+**Deployment Guides:**
+- 📖 [Step-by-Step Guide](./STEP_BY_STEP_DEPLOYMENT.md) (Beginner-friendly)
+- ⚡ [Quick Deploy](./QUICK_DEPLOY_VERCEL_RAILWAY.md) (Fast setup)
+- 📚 [Complete Guide](./DEPLOYMENT_GUIDE_VERCEL_RAILWAY.md) (Detailed)
 
-**Documentation:** [API Docs](http://localhost:8000/api/docs)
+**After Deployment:**
+- 🌐 **Your App:** `https://your-app.vercel.app`
+- 🔧 **API:** `https://your-app.railway.app`
+- 📚 **API Docs:** `https://your-app.railway.app/api/docs`
 
 ---
 
